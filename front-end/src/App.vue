@@ -1,8 +1,20 @@
 <template>
   <div id="app">
+    <Menu></Menu>
     <router-view/>
   </div>
 </template>
+
+<script>
+import Menu from './components/shared/Menu'
+export default {
+  name: 'app',
+  components: {
+    'Menu': Menu
+  }
+}
+</script>
+
 
 <style>
 #app {
