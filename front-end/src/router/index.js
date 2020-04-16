@@ -3,9 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '../components/Home.vue'
 import Cajero from '../components/Cajero.vue'
 
-
 Vue.use(VueRouter)
-
 
 const routes = [
   {

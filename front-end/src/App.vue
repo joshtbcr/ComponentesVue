@@ -6,13 +6,14 @@
 </template>
 
 <script>
-import Menu from './components/shared/Menu'
+import Menu from './components/shared/Menu.vue'
 export default {
   name: 'app',
   components: {
     'Menu': Menu
   }
 }
+
 </script>
 
 
