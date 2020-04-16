@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../components/Home.vue'
 import Cajero from '../components/Cajero.vue'
+import Chef from '../components/Chef/Chef.vue'
 
 Vue.use(VueRouter)
 
@@ -15,6 +16,11 @@ const routes = [
     path: '/cajero',
     name: 'Cajero',
     component: Cajero
+  },
+  {
+    path: '/chef',
+    name: 'Chef',
+    component: Chef
   }
 ]
 
