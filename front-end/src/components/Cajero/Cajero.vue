@@ -15,17 +15,17 @@
         <table class="table table-hover">
           <thead>
             <tr class="table-primary">
-              <th scope="col">Id</th>
+              <th scope="col">Código de producto</th>
               <th scope="col">Nombre</th>
-              <th scope="col">Price</th>
+              <th scope="col">Precio</th>
               <th></th>
             </tr>
           </thead>
-          <tbody>
-            <tr class="table-dark">
-              <td>foo</td>
-              <td>foo</td>
-              <td>foo</td>
+          <tbody class="table-dark">
+           <tr v-for="(productOrder, index) in productsOrder" :key="index">
+              <td>{{ productOrder.Id }}</td>
+              <td>{{ productOrder.Name }}</td>
+              <td>{{ productOrder.PricePerServing*productOrder.Servings }}</td>
               <td>
                 <div class="btn-group" role="group">
                   <button type="button" class="btn btn-danger btn-sm">Delete</button>
@@ -34,15 +34,15 @@
             </tr>
           </tbody>
         </table>
-         <form @submit="formSubmit">
-          <button type="button" class="btn btn-success">Generar orden</button>
+         <form>
+          <button type="button" @click="generarOrden" class="btn btn-success">Generar orden</button>
         </form>
     
       </div>
      
     </div>
     </div>
-    <modal-productos/>
+    <modal-productos :method="mostrarProductosSeleccionados"/>
   </div>
 
 
@@ -51,27 +51,40 @@
 <script>
   import ModalProductos from './ModalProductos.vue';
   import axios from 'axios';
+
    export default {
+      data: () => ({
+      productsOrder: [],
+    }),
     methods: {
-    show () {
-        this.$modal.show('modal-productos');
-    },
-    formSubmit(e) {
-                e.preventDefault();
-                let currentObj = this;
+      show () {
+          this.$modal.show('modal-productos');
+      },
+      mostrarProductosSeleccionados(producto){
+        this.productsOrder.push(producto);
+        console.log('todos los productos: ', JSON.stringify(this.productsOrder));
+      },
+      generarOrden() {
                 const path = 'http://localhost:5000/generarOrden';
-                this.axios.post(path, {
-                    name: this.name,
-                    description: this.description
-                })
-                .then(function (response) {
-                    currentObj.output = response.data;
-                })
-                .catch(function (error) {
-                    currentObj.output = error;
+                axios.post(path, {
+                    OrderId: this.generarNumeroRandom(),
+                    OrderStatus: 'Pending',
+                    TotalPrice: 1000,
+                    Products: this.productsOrder
+                }).then(response => {
+                // Respuesta del servidor
+                }).catch(e => {
+                    console.log(e);
                 });
-            }
-  },
+        },
+        generarNumeroRandom(){
+           let randomNumber = Math.floor(Math.random() * (10 - 1 + 1)) + 1;
+           return randomNumber;
+        },
+        generarFechaHoy(){
+
+        }
+      },
   components: {
     'ModalProductos': ModalProductos
   }
