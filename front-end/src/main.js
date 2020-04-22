@@ -9,6 +9,15 @@ import '@fortawesome/fontawesome-free/js/all.js'
 Vue.config.productionTip = false
 Vue.use(VModal)
 
+export const eventBus = new Vue({
+  data:{
+    //TODO global data if needed
+  },
+  methods: {
+    //TODO global functions (if needed)
+  }
+});
+
 
 new Vue({
   router,
