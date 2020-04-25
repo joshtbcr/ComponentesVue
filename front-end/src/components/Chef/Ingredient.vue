@@ -3,7 +3,7 @@
 
     
     <p class="card-text">
-      <strong>({{ingredientJson.cantidadIngrediente}}) {{ ingredientJson.nombreIngrediente }}</strong>
+      <strong>({{ingredientJson.Amount}} {{ ingredientJson.Unit }})  {{ ingredientJson.Name }}</strong>
     </p>
     <!-- <div v-for="(value, key, index) in ingredientJson" v-bind:key="value._id">
       <li>

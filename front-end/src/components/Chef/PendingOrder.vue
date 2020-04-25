@@ -1,7 +1,9 @@
 <template>
   <div class="divOrder" v-if="showOrder">
     <div class="card-img-top">
-      <img class="img-fluid" v-bind:src="firstPrdImg">
+      
+      <img class="img-fluid" v-bind:src="prdImg">
+
     </div>
     <div class="card-body">
       <p class="card-text">
@@ -20,12 +22,12 @@
       <div>
         <!-- <h5 class="card-title">Productos</h5> -->
         <div v-for="(product, index) in orderJson.Products" v-bind:key="index">
-          <Product :productJson="product" :indexProduct="index + 1"
+          <Product :productJson="product" :indexProduct="index"
+            @productClicked="productClicked($event)"
           >
             
           </Product>
-          {{index === 0 ? updateImg(product.Image): ""}}
-          <!-- {{index === 0 ? firstPrdImg = product.Image.replace(/\s/g, ''): ""}} -->
+          <!-- {{index === 0 ? updateImg(arrImg[0]): ""}} -->
         </div>
       </div>
       
@@ -53,28 +55,34 @@ export default {
     return {
       orderData: null,
       showOrder: true,
-      firstPrdImg: null
+      prdImg: origin + '/SelectProduct.png',
+      arrImg: []
     };
   },
+  computed:{
+  },
   methods:{
-    filtrarData() {
-      this.orderData = this.orderJson;
-      return this.orderData;
-    },
     changeStatus(orderId){
       //Code to change status on backend
 
       return true;
     },
     cookOrder(){
-      this.changeStatus(this.orderJson.orderId) ? this.showOrder = false: true;
+      this.changeStatus(this.orderJson.OrderId) ? this.showOrder = false: true;
     },
-    updateImg(img){
-      this.firstPrdImg = img.replace(/\s/g, '');
+    productClicked(index){
+      console.log("Change[Order #"+this.orderJson.OrderId+"]"+"Cambiando img a:" + this.arrImg[index]);
+      this.prdImg = this.arrImg[index];
     }
   },
   created() {
-    //TODO
+
+    //Poner imagenes de producto en Array para carousel
+    var imgs = [];
+    this.$props.orderJson.Products.forEach(function(item, index, array){
+          imgs.push(item.Image.replace(/\s/g, ''));
+    });
+    this.arrImg = imgs;
   },
   components: {
     Product

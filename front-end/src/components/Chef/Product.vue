@@ -1,13 +1,13 @@
 <template>
-  <div class="divProducto">
+  <div class="divProducto" @click="productClicked">
     <hr>
-    <h5 class="card-title">{{indexProduct}}. {{ productJson.Name }} ({{productJson.Servings}})</h5>
-
+    <h5 class="card-title">{{indexProduct + 1}}. {{ productJson.Name }} ({{productJson.Servings}})</h5>
     
-      <!-- <img class="img-fluid" v-bind:src="firstPrdImg"> -->
-    <span v-for="ingredient in productJson.ingredientes" v-bind:key="ingredient['Name']">
-        <Ingredient :ingredientJson="ingredient"> </Ingredient>
-    </span>
+    <template v-if="showIngredients">
+      <span v-for="ingredient in productJson.Ingredients" v-bind:key="ingredient['Name']">
+          <Ingredient :ingredientJson="ingredient"> </Ingredient>
+      </span>
+    </template>
 
 
   </div>
@@ -26,17 +26,17 @@ export default {
         type : Number,
         required: true
     }
+    
   },
   data() {
     return {
-      ordenData: null
+      showIngredients: false
     };
   },
   methods:{
-    filtrarData() {
-    },
-    removeSpace(str){
-      return str.replace(/\s/g, '');
+    productClicked() {
+      this.$emit('productClicked', this.indexProduct);
+      this.showIngredients = !this.showIngredients;
     }
   },
   components:{

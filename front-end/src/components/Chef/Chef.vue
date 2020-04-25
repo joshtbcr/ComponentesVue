@@ -58,4 +58,8 @@ export default {
 </script>
 
 <style scoped>
+#idChef{
+  margin: 20%;
+}
+
 </style>
