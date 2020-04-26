@@ -7,13 +7,11 @@
 
   <div class="collapse navbar-collapse" id="navbarColor01">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="#">Home </a>
+      
+      <li id="navCajero" @click="changeSelected('Cajero')" :class="['nav-item', {active : selected === 'Cajero'}]">
+        <a class="nav-link" href="#">Cashier</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/cajero/">Cajero</a>
-      </li>
-      <li class="nav-item">
+      <li id="navChef" @click="changeSelected('Chef')" :class="['nav-item', {active : selected === 'Chef'}]">
         <a class="nav-link" href="#">Chef</a>
       </li>
     </ul>
@@ -26,6 +24,22 @@
 </template>
 
 <script>
+export default {
+  name: 'Menu',
+  props:{
 
+  },
+  data(){
+    return{
+      selected: 'Cajero'
+    }
+  },
+  methods: {
+    changeSelected(vista){
+      this.selected = vista;
+      this.$emit('selected', this.selected);
+    }
+  }
+}
 
 </script>

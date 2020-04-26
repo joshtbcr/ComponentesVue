@@ -1,16 +1,29 @@
 <template>
   <div id="app">
-    <Menu></Menu>
-    <router-view/>
+    <Menu @selected="selectedComponent = $event"></Menu>
+    <!-- <router-view/> -->
+    <component :is="selectedComponent">
+
+    </component>
   </div>
 </template>
 
 <script>
 import Menu from './components/shared/Menu.vue'
+import Cajero from './components/Cajero/Cajero.vue'
+import Chef from './components/Chef/Chef.vue'
+
 export default {
   name: 'app',
+  data(){
+    return{
+      selectedComponent: 'Cajero'
+    }
+  },
   components: {
-    'Menu': Menu
+    Menu,
+    Cajero,
+    Chef
   }
 }
 
