@@ -12,6 +12,7 @@ Vue.use(VModal)
 export const eventBus = new Vue({
   data:{
     //TODO global data if needed
+    backendUrl: 'http://localhost:5000'
   },
   methods: {
     //TODO global functions (if needed)

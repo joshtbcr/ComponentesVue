@@ -1,14 +1,15 @@
 <template>
   <div id="divChef">
     <Spinner v-if="!showOrders"></Spinner>
-    <!-- <transition> -->
+    <transition 
+    enter-active-class="animated slideInUp"
+    >
       <div v-if="showOrders" class="card-deck">
         <div v-for="order in orders" v-bind:key="order['OrderId']">
           <Order :orderJson="order" class="card"> </Order>
-          <!-- class="card border-warning mb-3" style="max-width: 20rem;"> </Orden> -->
         </div>
       </div>
-    <!-- </transition> -->
+    </transition>
 
     <!-- <button class="btn btn-warning" v-if="showOrders" @click="loadOrders"> Re-load Orders </button> -->
 
@@ -21,6 +22,7 @@
 import axios from 'axios';
 import Order from './PendingOrder.vue';
 import Spinner from '../shared/Spinner.vue';
+import {eventBus} from '../../main';
 
 
 export default {
@@ -34,7 +36,7 @@ export default {
   },
   methods:{
     loadOrders() {
-      const path = 'http://localhost:5000/ordenes/all';
+      const path = eventBus.backendUrl + '/ordenes/all';
       axios.get(path)
         .then((res) => {
           console.log(res.data);
@@ -58,8 +60,25 @@ export default {
 </script>
 
 <style scoped>
-#idChef{
+/* #idChef{
   margin: 20%;
+} */
+
+.fade-enter{
+  opacity: 0;
+}
+
+.fade-enter-active{
+  transition: opacity 1s;
+}
+
+.fade-leave{
+  /* opacity: 1; */
+}
+
+.fade-leave-active{
+  transition: opacity 1s;
+  opacity: 0;
 }
 
 </style>

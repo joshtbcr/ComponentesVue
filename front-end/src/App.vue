@@ -2,9 +2,11 @@
   <div id="app">
     <Menu @selected="selectedComponent = $event"></Menu>
     <!-- <router-view/> -->
-    <component :is="selectedComponent">
+    <transition name="fade" mode="out-in">
+      <component :is="selectedComponent">
+      </component>
+    </transition>
 
-    </component>
   </div>
 </template>
 
@@ -50,5 +52,23 @@ export default {
 
 #nav a.router-link-exact-active {
   color: #42b983;
+}
+
+
+.fade-enter{
+  opacity: 0;
+}
+
+.fade-enter-active{
+  transition: opacity 1s;
+}
+
+.fade-leave{
+  /* opacity: 1; */
+}
+
+.fade-leave-active{
+  transition: opacity 1s;
+  opacity: 0;
 }
 </style>

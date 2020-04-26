@@ -1,16 +1,9 @@
 <template>
-  <div class="divIngredient">
-
-    
-    <p class="card-text">
-      <strong>({{ingredientJson.Amount}} {{ ingredientJson.Unit }})  {{ ingredientJson.Name }}</strong>
-    </p>
-    <!-- <div v-for="(value, key, index) in ingredientJson" v-bind:key="value._id">
-      <li>
-        {{index}}. {{key}}: {{value}}
-      </li>
-    </div> -->
-  </div>
+<div class="divIngredient">
+  <p class="card-text">
+    <strong>({{ingredientJson.Amount}} {{ ingredientJson.Unit }})  {{ ingredientJson.Name }}</strong>
+  </p>
+</div>
 </template>
 
 <script>

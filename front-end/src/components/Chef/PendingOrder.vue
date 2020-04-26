@@ -1,4 +1,5 @@
 <template>
+<transition name="fade" appear>
   <div class="divOrder" v-if="showOrder">
     <div class="card-img-top">
       
@@ -38,11 +39,13 @@
 
 
   </div>
+</transition>
 </template>
 
 <script>
 import axios from 'axios';
 import Product from './Product.vue';
+import {eventBus} from '../../main';
 
 export default {
   props: {
@@ -53,7 +56,6 @@ export default {
   },
   data() {
     return {
-      orderData: null,
       showOrder: true,
       prdImg: origin + '/SelectProduct.png',
       arrImg: []
@@ -63,12 +65,25 @@ export default {
   },
   methods:{
     changeStatus(orderId){
-      //Code to change status on backend
+      
+      const path = eventBus.backendUrl + '/actualizarOrden';
+      this.orderJson.OrderStatus = 'Ready';
+      axios.put(path,this.orderJson)
+        .then((res) => {
+          console.log(res.data);
+          this.showOrder = false;
+          return true;
+        })
+        .catch((error) => {
+          console.error(error);
+          this.orderJson.OrderStatus = 'Pending';
+          this.showOrder = true;
+          return false;
+      });
 
-      return true;
     },
     cookOrder(){
-      this.changeStatus(this.orderJson.OrderId) ? this.showOrder = false: true;
+      this.changeStatus(this.orderJson.OrderId);
     },
     productClicked(index){
       console.log("Change[Order #"+this.orderJson.OrderId+"]"+"Cambiando img a:" + this.arrImg[index]);
@@ -77,7 +92,7 @@ export default {
   },
   created() {
 
-    //Poner imagenes de producto en Array para carousel
+    //Poner imagenes de producto en Array
     var imgs = [];
     this.$props.orderJson.Products.forEach(function(item, index, array){
           imgs.push(item.Image.replace(/\s/g, ''));
@@ -103,6 +118,23 @@ max-width: 150px;
 
 .divOrder{
   text-align: left;
+}
+
+.fade-enter{
+  opacity: 0;
+}
+
+.fade-enter-active{
+  transition: opacity 1s;
+}
+
+.fade-leave{
+  /* opacity: 1; */
+}
+
+.fade-leave-active{
+  transition: opacity 1s;
+  opacity: 0;
 }
 
   
