@@ -14,15 +14,6 @@ export default {
       type: Object,
       required: true
     }
-  },
-  data() {
-    return {
-      orderData: null
-    };
-  },
-  methods:{
-    filtrarData() {
-    }
   }
 };
 </script>

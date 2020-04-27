@@ -1,19 +1,29 @@
 <template>
   <div id="divChef">
-    <Spinner v-if="!showOrders"></Spinner>
-    <transition 
-    enter-active-class="animated slideInUp"
-    >
-      <div v-if="showOrders" class="card-deck">
-        <div v-for="order in orders" v-bind:key="order['OrderId']">
-          <Order :orderJson="order" class="card"> </Order>
+    <div class="container">
+      <div class="row">
+        <div class="col-sm">
+          <h1>Orders to Cook</h1>
         </div>
       </div>
+    </div>    
+    <Spinner v-if="!showOrders" class="mt-4"></Spinner>
+    <transition enter-active-class="animated slideInUp">
+
+      <div class="container" v-if="showOrders">
+        <div class="row">
+          <div  class="card-deck col">
+            <div v-for="order in orders" v-bind:key="order['OrderId']">
+              <Order v-if="order.OrderStatus === 'Pending'" :orderJson="order" class="card"> </Order>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
     </transition>
 
     <!-- <button class="btn btn-warning" v-if="showOrders" @click="loadOrders"> Re-load Orders </button> -->
-
-
 
   </div>
 </template>

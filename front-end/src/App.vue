@@ -14,18 +14,20 @@
 import Menu from './components/shared/Menu.vue'
 import Cajero from './components/Cajero/Cajero.vue'
 import Chef from './components/Chef/Chef.vue'
+import Home  from './components/Home.vue'
 
 export default {
   name: 'app',
   data(){
     return{
-      selectedComponent: 'Cajero'
+      selectedComponent: ''
     }
   },
   components: {
     Menu,
     Cajero,
-    Chef
+    Chef,
+    Home
   }
 }
 
