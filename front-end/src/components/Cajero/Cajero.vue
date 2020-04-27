@@ -7,7 +7,8 @@
         <div class="col-sm-3"><button type="button" id="show-modal" @click="show(productValue)" class="btn btn-success">Search</button></div>
       </div>
     </div>
-  <div class="jumbotron">
+   <div class="jumbotron">
+
     <div class="row">
       <div class="col-sm-12">
         <h5 class="display-5">Order</h5>
@@ -37,10 +38,11 @@
          <form>
           <button type="button" @click="generarOrden" class="btn btn-success">Submit order</button>
         </form>
-    
-      </div>
-     
+      </div> 
     </div>
+   </div>
+    <div class="jumbotron" id="readyOrders">
+      <ready-order></ready-order>
     </div>
     <modal-productos v-if='show' :method="mostrarProductosSeleccionados" :showProducts="showProducts"/>
   </div>
@@ -52,6 +54,7 @@
   import ModalProductos from './ModalProductos.vue';
   import axios from 'axios';
   import {eventBus} from '../../main';
+  import ReadyOrder from './ReadyOrder.vue';
 
    export default {
       data: () => ({
@@ -141,7 +144,8 @@
         }
       },
   components: {
-    'ModalProductos': ModalProductos
+    'ModalProductos': ModalProductos,
+    'ReadyOrder': ReadyOrder
   }
 }
 
@@ -149,6 +153,10 @@
 
 <style>
     .container {
+    margin-top: 25px;
+    }
+
+    .jumbotron {
     margin-top: 25px;
     }
 
