@@ -1,26 +1,28 @@
 <template>
   <div name="ready-orden">
-
-     <h5 class="display-5">Ready order</h5>
      <div class="row">
-
-          <div class="col-md-4" v-for="(order, index) in orders">
+          <div class="col-md-4" v-for="(order, index) in orders" :key="index">
             <div class="card text-white bg-primary mb-3" style="max-width: 20rem;">
                 <div class="card-header">Order # {{ order.OrderId }}</div>
+
                 <div class="card-body">
-                    <h4 class="card-title">{{ order.OrderId }}</h4>
-                    <p class="card-text">{{ order.OrderId }}</p>
+                    <h5 class="card-title">Order Status: {{ order.OrderStatus }}</h5>
+                    <p class="card-text">Products</p>
+                    <ul class="list-group">
+                    <li v-for="(product,index) in order.Products" :key="index" class="list-group-item d-flex justify-content-between align-items-center" >
+                        <p style="color:black;"> Product: {{ product.Name }} </p>
+                        <span class="badge badge-primary badge-pill">{{ product.Servings }}</span>
+                    </li>
+                    </ul>
                 </div>
                 <div class="card-footer">
-                    <button class="btn btn-secondary">Deliver order</button>
+                    <button class="btn btn-secondary" @click="changeStatus(order)">Deliver order</button>
                 </div>
             </div>
-              
+    
            </div>
           </div>
-
      </div>
-
   </div>
 </template>
 
@@ -34,20 +36,34 @@ export default {
   },
   data() {
     return {
-        orders: null,
+        orders: [],
     };
   },
   methods: {
        loadOrders() {
-      const path = eventBus.backendUrl + '/ordenes/all';
+      const path = eventBus.backendUrl + '/ordenes/Ready';
       axios.get(path)
         .then((res) => {
-          console.log(res.data);
           this.orders = res.data.ordenes;
         })
         .catch((error) => {
           console.error(error);
         });
+    },
+    changeStatus(order){
+      const path = eventBus.backendUrl + '/actualizarOrden';
+      order.OrderStatus = 'Delivered';
+      axios.put(path,order)
+        .then((res) => {
+          this.$forceUpdate();
+          this.loadOrders();
+        })
+        .catch((error) => {
+          console.error(error);
+          order.OrderStatus = 'Ready';
+          this.loadOrders();
+      });
+
     },
   },
   components: {

@@ -9,39 +9,39 @@
               <div class="listaPropiedades">
                   <ul class="list-group">
                   <li class="list-group-item d-flex justify-content-between align-items-center">
-                  Vegan:  
-                    <i v-if="product.Vegan" class="fas fa-leaf"></i>
-                    <i v-else class="fas fa-times-circle"></i>
+                  Vegan 
+                    <span v-if="product.Vegan" class="badge badge-pill badge-success">Vegan!</span>
+                    <span v-else class="badge badge-pill badge-danger">No vegan</span>
                   </li>
                   <li class="list-group-item d-flex justify-content-between align-items-center">
-                  Vegetarian:
-                    <i v-if="product.Vegetarian" class="fas fa-leaf"></i>
-                    <i v-else class="fas fa-times-circle"></i>
+                  Vegetarian
+                    <span v-if="product.Vegetarian" class="badge badge-pill badge-success">Vegetarian!</span>
+                    <span v-else class="badge badge-pill badge-danger">No vegetarian</span>
                   </li>
                   <li class="list-group-item d-flex justify-content-between align-items-center">
-                  Gluten Free:
-                    <i v-if="product.GlutenFree" class="fas fa-check-circle"></i>
-                    <i v-else class="fas fa-times-circle"></i>
+                  Gluten Free
+                   <span v-if="product.GlutenFree" class="badge badge-pill badge-success">Vegan!</span>
+                   <span v-else class="badge badge-pill badge-danger">No vegan</span>
                   </li>
                   <li class="list-group-item d-flex justify-content-between align-items-center">
-                  Dairy Free:
-                    <i v-if="product.DairyFree" class="fas fa-check-circle"></i>
-                    <i v-else class="fas fa-times-circle"></i>
+                  Dairy Free  
+                   <span v-if="product.DairyFree" class="badge badge-pill badge-success">Dairy free!</span>
+                   <span v-else class="badge badge-pill badge-danger">No dairy free</span>
                   </li>
                   <li class="list-group-item d-flex justify-content-between align-items-center">
-                  Cheap:
-                    <i v-if="product.Cheap" class="fas fa-check-circle"></i>
-                    <i v-else class="fas fa-times-circle"></i>
+                  Cheap
+                   <span v-if="product.Cheap" class="badge badge-pill badge-success">Very cheap!</span>
+                   <span v-else class="badge badge-pill badge-danger">Expensive</span>
                   </li>
                   <li class="list-group-item d-flex justify-content-between align-items-center">
-                  Popular:
-                    <i v-if="product.VeryPopular" class="fas fa-check-circle"></i>
-                    <i v-else class="fas fa-times-circle"></i>
+                  Popular 
+                   <span v-if="product.VeryPopular" class="badge badge-pill badge-success">Very popular!</span>
+                   <span v-else class="badge badge-pill badge-danger">So weird</span>
                   </li>
                   <li class="list-group-item d-flex justify-content-between align-items-center">
-                  Saludable:
-                    <i v-if="product.VeryHealthy" class="fas fa-check-circle"></i>
-                    <i v-else class="fas fa-times-circle"></i>
+                  Healthy
+                   <span v-if="product.VeryHealthy" class="badge badge-pill badge-success">So healthy!</span>
+                   <span v-else class="badge badge-pill badge-danger">No healthy</span>
                   </li>
                 </ul>
               </div>

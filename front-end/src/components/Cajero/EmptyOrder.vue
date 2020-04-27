@@ -4,7 +4,7 @@
     <div class="col-sm-12">
         <div id="emptycard" class="card text-white bg-danger mb-3" display="center" style="max-width: 40rem;">
         <div class="card-body">
-            <p class="card-text">Please insert products to generate an order.</p>
+            <p class="card-text">{{ msgOrderContent }}</p>
         </div>
         </div>
     </div>
@@ -14,6 +14,11 @@
 
 
 <script>
+export default {
+  props: {
+    msgOrderContent : String,
+  },
+};
 </script>
 
 <style>

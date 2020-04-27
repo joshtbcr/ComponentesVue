@@ -16,7 +16,7 @@
                   <tr v-for="(product, index) in products" :key="product.Id" v-on:click="clickList(product)">
                     <td>{{ product.Id }}</td>
                     <td>{{ product.Name }}</td>
-                    <td>{{ product.PricePerServing }}</td>
+                    <td>{{ '$' +((product.PricePerServing*product.Servings*4)/550).toFixed(2) }}</td>
                     <td>
                       <div class="btn-group" role="group" id="modalProductoApp">
                       <button type="button" id="show-info"  @click="showInfo()" class="btn btn-info">More info</button>

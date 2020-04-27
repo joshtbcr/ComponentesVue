@@ -3,7 +3,7 @@
     <div class="container">
       <div class="row">
         <div class="col-sm">
-          <h1>Orders to Cook</h1>
+          <h3>Orders to Cook</h3>
         </div>
       </div>
     </div>    

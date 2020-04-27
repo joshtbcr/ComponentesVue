@@ -13,8 +13,8 @@
       <div class="col-sm-12">
         <h5 class="display-5">Order</h5>
         <hr class="my-4">
-        <empty-order v-if="products.length==0"/>
-        <div id="OrderContent" v-if="products.length>0">
+        <empty-order v-if="!showOrderContent" :msgOrderContent="msgOrderContent"/>
+        <div id="OrderContent" v-if="showOrderContent">
             <div class="form-group row">
                 <label for="staticDate" class="col-sm-2 col-form-label">Date:</label>
                 <div class="col-sm-10">
@@ -26,7 +26,7 @@
                 </div>
                 <label for="staticPrice" class="col-sm-2 col-form-label">Total price:</label>
                 <div class="col-sm-10">
-                  <input type="text" readonly="" class="form-control-plaintext" id="staticPrice" :value="totalPrice">
+                  <input type="text" readonly="" class="form-control-plaintext" id="staticPrice" :value="'$' +sumTotalPrice">
                 </div>
             </div>
             <table class="table table-hover">
@@ -42,7 +42,7 @@
               <tr v-for="(productOrder, index) in productsOrder" :key="index">
                   <td>{{ productOrder.Id }}</td>
                   <td>{{ productOrder.Name }}</td>
-                  <td>{{ productOrder.PricePerServing*productOrder.Servings }}</td>
+                  <td>{{ '$' +((productOrder.PricePerServing*productOrder.Servings*4)/550).toFixed(2) }}</td>
                   <td>
                     <div class="btn-group" role="group">
                       <button type="button" @click="borrarProducto(index)" class="btn btn-danger btn-sm">Delete</button>
@@ -60,6 +60,8 @@
     </div>
    </div>
     <div class="jumbotron" id="readyOrders">
+     <h5 class="display-5">Ready order</h5>
+     <hr class="my-4">
       <ready-order></ready-order>
     </div>
     <modal-productos v-if='show' :method="mostrarProductosSeleccionados" :showProducts="showProducts"  :products="products"/>
@@ -82,10 +84,24 @@
       showProducts: false,
       sucess: false,
       products: [],
-      totalPrice: 0,
       currentDate: '',
       orderNumber: 0,
+      showOrderContent: false,
+      msgOrderContent: 'Please insert products to generate an order.',
     }),
+    computed: {
+      sumTotalPrice() {
+            if (this.productsOrder.length == 0) {
+                return 0;
+            } else {
+               var sum = 0;
+                    this.productsOrder.forEach(e => {
+                        sum += (e.PricePerServing*e.Servings*4)/550;
+                    });
+                    return sum.toFixed(2)
+            }
+      }
+    },
     methods: {
       pruebaProductos(){
         this.$modal.show('modal-productos');
@@ -145,38 +161,42 @@
       },
       mostrarProductosSeleccionados(producto){
         this.productsOrder.push(producto);
+        this.showOrderContent= true;
         this.calcularPrecioTotal();
         console.log('todos los productos: ', JSON.stringify(this.productsOrder));
       },
       generarOrden() {
                 const path =  eventBus.backendUrl + '/generarOrden';
                 axios.post(path, {
-                    OrderId: this.generarNumeroRandom(),
+                    OrderId: this.orderNumber,
                     OrderStatus: 'Pending',
-                    TotalPrice: 1000,
+                    TotalPrice: this.sumTotalPrice,
                     Products: this.productsOrder
                 }).then(response => {
-                // Respuesta del servidor
+                     this.$alert("Order successfully registered!");
+                     this.productsOrder = [];
+                     this.showOrderContent= false;
                 }).catch(e => {
                     console.log(e);
                 });
         },
         generarNumeroRandom(){
-           let randomNumber = Math.floor(Math.random() * (10 - 1 + 1)) + 1;
+           let randomNumber = Math.floor(Math.random() * (1000 - 1 + 1)) + 1;
            this.orderNumber = randomNumber;
            return randomNumber;
         },
         generarFechaHoy(){
-  
             var currentDateWithFormat = new Date().toJSON().slice(0,10).replace(/-/g,'/');
             this.currentDate = currentDateWithFormat;
-            console.log(currentDateWithFormat);
         },
         calcularPrecioTotal(){
-          this.totalPrice = this.products.reduce((acumulador, valorActual) => acumulador = PricePerServing*Servings);
+             this.totalPrice = productsOrder.reduce((a, product) => +a + +product.PricePerServing, 0);
         },
         borrarProducto(index){
             this.productsOrder.splice(index, 1);
+            if(this.productsOrder.length==0){
+              this.showOrderContent= false;
+            }
         },
       },
   components: {
