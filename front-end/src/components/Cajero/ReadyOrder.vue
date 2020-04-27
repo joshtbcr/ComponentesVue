@@ -4,15 +4,15 @@
      <h5 class="display-5">Ready order</h5>
      <div class="row">
 
-          <div class="col-md-4" v-for="(order, index) in orders.slice(0, 15)">
-            <div class="card text-white bg-success mb-3" style="max-width: 20rem;">
+          <div class="col-md-4" v-for="(order, index) in orders">
+            <div class="card text-white bg-primary mb-3" style="max-width: 20rem;">
                 <div class="card-header">Order # {{ order.OrderId }}</div>
                 <div class="card-body">
                     <h4 class="card-title">{{ order.OrderId }}</h4>
                     <p class="card-text">{{ order.OrderId }}</p>
                 </div>
                 <div class="card-footer">
-                    <button class="btn btn-danger" @click="cookOrder">Deliver order</button>
+                    <button class="btn btn-secondary">Deliver order</button>
                 </div>
             </div>
               

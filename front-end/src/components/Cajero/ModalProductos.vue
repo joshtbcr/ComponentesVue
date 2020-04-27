@@ -1,10 +1,9 @@
 <template>
   <div id="divCajero">
-  <modal name="modal-productos" ref="modal" :adaptive="true" :scrollable="true" width="80%" height="auto">
+  <modal name="modal-productos" ref="modal" :adaptive="true" :scrollable="true" :width="modalWidth" height="auto">
     <Spinner v-if="!showProducts"></Spinner>
     <transition 
-      <div class="container">
-      </div>
+      <product-result :method="agregarOrden" :products="products"/>
     </transition>
  </modal>
   </div>
@@ -15,43 +14,33 @@
 import axios from 'axios';
 import Spinner from '../shared/Spinner.vue';
 import {eventBus} from '../../main';
+import ProductResult from './ProductResult.vue';
 
 export default {
   props: {
     method: { type: Function },
     productValue : String,
-    showProducts : Boolean
+    showProducts : Boolean,
+    products : Array,
   },
   data() {
     return {
-      products: [],
-      orderProducts: [],
-      ingredients: [],
+      modalWidth: '80%',
     };
   },
   methods: {
-    getProducts() {
-
-    },
     agregarOrden(product){
         console.log('agregar Orden de ' +product.Name);
         //this.orderProducts.push(product);
         this.method(product);
-  
     },
-    replaceWhiteSpace: function (a) {
-            let string = a.replace(' ','');
-            return string;
-        },
   },
   components: {
-    Spinner
-  },
-  created() {
+    Spinner,
+    ProductResult
   },
 };
 </script>
-
 
 
 <style>
