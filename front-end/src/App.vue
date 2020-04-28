@@ -1,16 +1,33 @@
 <template>
   <div id="app">
-    <Menu></Menu>
-    <router-view/>
+    <Menu @selected="selectedComponent = $event"></Menu>
+    <!-- <router-view/> -->
+    <transition name="fade" mode="out-in">
+      <component :is="selectedComponent">
+      </component>
+    </transition>
+
   </div>
 </template>
 
 <script>
 import Menu from './components/shared/Menu.vue'
+import Cajero from './components/Cajero/Cajero.vue'
+import Chef from './components/Chef/Chef.vue'
+import Home  from './components/Home.vue'
+
 export default {
   name: 'app',
+  data(){
+    return{
+      selectedComponent: ''
+    }
+  },
   components: {
-    'Menu': Menu
+    Menu,
+    Cajero,
+    Chef,
+    Home
   }
 }
 
@@ -37,5 +54,23 @@ export default {
 
 #nav a.router-link-exact-active {
   color: #42b983;
+}
+
+
+.fade-enter{
+  opacity: 0;
+}
+
+.fade-enter-active{
+  transition: opacity 1s;
+}
+
+.fade-leave{
+  /* opacity: 1; */
+}
+
+.fade-leave-active{
+  transition: opacity 1s;
+  opacity: 0;
 }
 </style>
