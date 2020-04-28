@@ -103,20 +103,6 @@
       }
     },
     methods: {
-      pruebaProductos(){
-        this.$modal.show('modal-productos');
-        this.showProducts = true;
-        const path = 'http://localhost:5000/books';
-          axios.get(path)
-            .then((res) => {
-              this.products = res.data.products;
-              console.log(this.products);
-            })
-            .catch((error) => {
-              // eslint-disable-next-line
-              console.error(error);
-            });
-      },
       show(productValue) {
         let guid = '';
         if (this.productValue != null){
