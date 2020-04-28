@@ -4,7 +4,7 @@
       <div class="row">
         <div class="col-sm-3"><label class="col-form-label" for="inputDefault">Insert product search:</label></div>
         <div class="col-sm-6"><input type="text" v-model="productValue" class="form-control" id="productValue" placeholder="Insert a product/ingredient..."></div>
-        <div class="col-sm-3"><button type="button" id="show-modal" @click="pruebaProductos()" class="btn btn-success">Search</button></div>
+        <div class="col-sm-3"><button type="button" id="show-modal" @click="show(productValue)" class="btn btn-success">Search</button></div>
       </div>
     </div>
    <div class="jumbotron">
@@ -129,7 +129,6 @@
           console.log('GUID obtenido: ' +res.data);
           guid = res.data;
           this.getProductsSpoonacular(guid);
-          //this.showProducts = true;
         })
         .catch((error) => {
           console.error(error);
@@ -148,10 +147,14 @@
                   xhr.open('GET',eventBus.backendUrl + '/buscar?busquedaId=' + guidValue);
                   xhr.onload = () => {
                     if (xhr.status === 200 && xhr.responseText!== 'False'){
+                      this.showProducts = true;
                       console.log(xhr.responseText); 
-                      productos = xhr.responseText;
+                      var responsexml = JSON.parse(xhr.responseText);
+                      this.products = responsexml.products;
+                      console.log('productos obtenidos: ', JSON.stringify(this.products)); 
                       clearInterval(intervalo);
                       this.showProducts = true;
+                      
                     }else{
                       console.log('Respuesta del backend no valida:'+ "\n\t"+ xhr.status  + xhr.responseText); 
                     }

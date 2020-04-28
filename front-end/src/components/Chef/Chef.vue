@@ -10,7 +10,7 @@
     <Spinner v-if="!showOrders" class="mt-4"></Spinner>
     <transition enter-active-class="animated slideInUp">
 
-      <div class="container" v-if="showOrders">
+      <div class="container" v-if="!showOrders">
         <div class="row">
           <div  class="card-deck col">
             <div v-for="order in orders" v-bind:key="order['OrderId']">

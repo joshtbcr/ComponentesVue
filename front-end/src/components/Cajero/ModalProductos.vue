@@ -3,7 +3,7 @@
   <modal name="modal-productos" ref="modal" :adaptive="true" :scrollable="true" :width="modalWidth" height="auto">
     <Spinner v-if="!showProducts"></Spinner>
     <transition 
-      <product-result :method="agregarOrden" :products="products"/>
+      <product-result v-if="showProducts" :method="agregarOrden" :products="products"/>
     </transition>
  </modal>
   </div>
