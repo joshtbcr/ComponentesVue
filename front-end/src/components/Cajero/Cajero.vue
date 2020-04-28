@@ -133,7 +133,6 @@
                   xhr.open('GET',eventBus.backendUrl + '/buscar?busquedaId=' + guidValue);
                   xhr.onload = () => {
                     if (xhr.status === 200 && xhr.responseText!== 'False'){
-                      this.showProducts = true;
                       console.log(xhr.responseText); 
                       var responsexml = JSON.parse(xhr.responseText);
                       this.products = responsexml.products;
