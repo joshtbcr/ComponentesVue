@@ -64,7 +64,7 @@
      <hr class="my-4">
       <ready-order></ready-order>
     </div>
-    <modal-productos v-if='show' :method="mostrarProductosSeleccionados" :showProducts="showProducts"  :products="products"/>
+    <modal-productos v-if='show' :method="mostrarProductosSeleccionados" :showProducts="showProducts"  :showSpinner="showSpinner"  :showProductsNoFound="showProductsNoFound" :products="products"/>
   </div>
 
 
@@ -82,16 +82,19 @@
       productsOrder: [],
       productValue: null,
       showProducts: false,
+      showSpinner: false,
+      showProductsNoFound : false,
       sucess: false,
       products: [],
       currentDate: '',
       orderNumber: 0,
       showOrderContent: false,
       msgOrderContent: 'Please insert products to generate an order.',
+      intervalo: 0,
     }),
     computed: {
       sumTotalPrice() {
-            if (this.productsOrder.length == 0) {
+            if (this.productsOrder.length === 0 || this.productsOrder === []) {
                 return 0;
             } else {
                var sum = 0;
@@ -105,6 +108,10 @@
     methods: {
       show(productValue) {
         let guid = '';
+        this.products = [];
+        this.showProducts = false;
+        this.showSpinner = false;
+        this.showProductsNoFound = false;
         if (this.productValue != null){
           this.$modal.show('modal-productos');
           console.log('Entra al modal con: ' + this.productValue);
@@ -129,28 +136,35 @@
           var intervalo = setInterval(function () {
                   requestsCounter < 5 ? requestsCounter++ : clearInterval(intervalo);
                   console.log('Request #'+requestsCounter);
-                  var xhr = new XMLHttpRequest();
-                  xhr.open('GET',eventBus.backendUrl + '/buscar?busquedaId=' + guidValue);
-                  xhr.onload = () => {
-                    if (xhr.status === 200 && xhr.responseText!== 'False'){
-                      console.log(xhr.responseText); 
-                      var responsexml = JSON.parse(xhr.responseText);
-                      this.products = responsexml.products;
-                      console.log('productos obtenidos: ', JSON.stringify(this.products)); 
-                      clearInterval(intervalo);
-                      this.showProducts = true;
-                      
-                    }else{
-                      console.log('Respuesta del backend no valida:'+ "\n\t"+ xhr.status  + xhr.responseText); 
-                    }
+                  const path = eventBus.backendUrl + '/buscar?busquedaId=' + guidValue;
+                  if (requestsCounter === 5){
+                         console.log('Entra al IF de no data found.'); 
+                         this.showSpinner = true;
+                         this.showProductsNoFound = true;
                   }
-                  xhr.send();
-                }, 5000);
-      },
+                  axios.get(path)
+                  .then((res) => {
+                    if(res.status === 200 && res.data!== 'False'){
+                       console.log('Entra al IF.'); 
+                       console.log('data del response: ', JSON.stringify(res.data)); 
+                       console.log('products del response: ', JSON.stringify(res.data.products)); 
+                       this.products = res.data.products;
+                       this.showSpinner = true;
+                       this.showProducts = true;
+                       clearInterval(intervalo);
+                      }else{
+                      console.log('Respuesta del backend no valida:'+ "\n\t"+ res.status  + res.data); 
+                    }
+                  })
+                  .catch((error) => {
+                    console.error(error);
+                  });
+                }.bind(this), 5000);
+           console.log('intervalo: ' +intervalo);
+      }, 
       mostrarProductosSeleccionados(producto){
         this.productsOrder.push(producto);
         this.showOrderContent= true;
-        this.calcularPrecioTotal();
         console.log('todos los productos: ', JSON.stringify(this.productsOrder));
       },
       generarOrden() {
@@ -176,9 +190,6 @@
         generarFechaHoy(){
             var currentDateWithFormat = new Date().toJSON().slice(0,10).replace(/-/g,'/');
             this.currentDate = currentDateWithFormat;
-        },
-        calcularPrecioTotal(){
-             this.totalPrice = productsOrder.reduce((a, product) => +a + +product.PricePerServing, 0);
         },
         borrarProducto(index){
             this.productsOrder.splice(index, 1);

@@ -1,9 +1,27 @@
 <template>
   <div id="divCajero">
   <modal name="modal-productos" ref="modal" :adaptive="true" :scrollable="true" :width="modalWidth" height="auto">
-    <Spinner v-if="!showProducts"></Spinner>
+    <div slot="top-right">
+      <button @click="$modal.hide('modal-productos')">
+        ❌
+      </button>
+    </div>
+    <div class="center">
+      <Spinner v-if="!showSpinner"></Spinner>
+    </div>
+   
     <transition 
       <product-result v-if="showProducts" :method="agregarOrden" :products="products"/>
+      
+      <div id="noProductsFound" v-if="showProductsNoFound">
+       <div class="col-sm-12">
+        <div id="emptycard" class="card text-white bg-danger mb-3" display="center" style="max-width: 40rem;">
+        <div class="card-body">
+            <p class="card-text">No products were found. Try again.</p>
+        </div>
+        </div>
+       </div>
+      </div>
     </transition>
  </modal>
   </div>
@@ -22,6 +40,8 @@ export default {
     productValue : String,
     showProducts : Boolean,
     products : Array,
+    showSpinner : Boolean,
+    showProductsNoFound : Boolean,
   },
   data() {
     return {
@@ -44,6 +64,15 @@ export default {
 
 
 <style>
+#noProductsFound{
+  margin: 30px;
+}
+
+.center {
+  margin: auto;
+  width: 25%;
+  padding: 10px;
+}
 
 </style>
 

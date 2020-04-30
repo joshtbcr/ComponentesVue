@@ -13,7 +13,7 @@
                   </tr>
               </thead>
               <tbody>
-                  <tr v-for="(product, index) in products" :key="product.Id" v-on:click="clickList(product)">
+                  <tr v-for="(product, i) in products" :key="i" v-on:click="clickList(product)">
                     <td>{{ product.Id }}</td>
                     <td>{{ product.Name }}</td>
                     <td>{{ '$' +((product.PricePerServing*product.Servings*4)/550).toFixed(2) }}</td>
@@ -74,10 +74,12 @@ export default {
         this.tableClass = 'col-sm-6';
     },
     agregarOrden(product){
+        this.$alert("Product added to the order!");
         console.log('agregar Orden de ' +product.Name);
         //this.orderProducts.push(product);
         this.method(product);
         this.tableClass = 'col-sm-6';
+        
     },
     replaceWhiteSpace: function (a) {
             let string = a.replace(' ','');
