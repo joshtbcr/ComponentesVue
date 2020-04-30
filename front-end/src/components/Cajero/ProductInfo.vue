@@ -20,8 +20,8 @@
                   </li>
                   <li class="list-group-item d-flex justify-content-between align-items-center">
                   Gluten Free
-                   <span v-if="product.GlutenFree" class="badge badge-pill badge-success">Vegan!</span>
-                   <span v-else class="badge badge-pill badge-danger">No vegan</span>
+                   <span v-if="product.GlutenFree" class="badge badge-pill badge-success">Gluten free!</span>
+                   <span v-else class="badge badge-pill badge-danger">No gluten free</span>
                   </li>
                   <li class="list-group-item d-flex justify-content-between align-items-center">
                   Dairy Free  
@@ -62,7 +62,7 @@
                       <tr v-for="(ingredient, index) in product.Ingredients" :key="ingredient.Id">
                         <td>{{ ingredient.Id }}</td>
                         <td>{{ ingredient.Name }}</td>
-                        <td>{{ ingredient.Amount }}</td>
+                        <td>{{ (ingredient.Amount).toFixed(2) }}</td>
                         <td>{{ ingredient.Unit }}</td>
                         </td>
                       </tr>
