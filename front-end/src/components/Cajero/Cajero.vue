@@ -114,12 +114,12 @@
         this.showProductsNoFound = false;
         if (this.productValue != null){
           this.$modal.show('modal-productos');
-          console.log('Entra al modal con: ' + this.productValue);
+          //console.log('Entra al modal con: ' + this.productValue);
           const path = eventBus.backendUrl + '/buscar?query=' + this.productValue;
-          console.log('Path con query: ' +path);
+          //console.log('Path con query: ' +path);
           axios.get(path)
          .then((res) => {
-          console.log('GUID obtenido: ' +res.data);
+          //console.log('GUID obtenido: ' +res.data);
           guid = res.data;
           this.getProductsSpoonacular(guid);
         })
@@ -135,19 +135,19 @@
           var requestsCounter = 0;
           var intervalo = setInterval(function () {
                   requestsCounter < 5 ? requestsCounter++ : clearInterval(intervalo);
-                  console.log('Request #'+requestsCounter);
+                  //console.log('Request #'+requestsCounter);
                   const path = eventBus.backendUrl + '/buscar?busquedaId=' + guidValue;
                   if (requestsCounter === 5){
-                         console.log('Entra al IF de no data found.'); 
+                         //console.log('Entra al IF de no data found.'); 
                          this.showSpinner = true;
                          this.showProductsNoFound = true;
                   }
                   axios.get(path)
                   .then((res) => {
                     if(res.status === 200 && res.data!== 'False'){
-                       console.log('Entra al IF.'); 
-                       console.log('data del response: ', JSON.stringify(res.data)); 
-                       console.log('products del response: ', JSON.stringify(res.data.products)); 
+                       //console.log('Entra al IF.'); 
+                       //console.log('data del response: ', JSON.stringify(res.data)); 
+                       //console.log('products del response: ', JSON.stringify(res.data.products)); 
                        this.products = res.data.products;
                        this.showSpinner = true;
                        this.showProducts = true;
