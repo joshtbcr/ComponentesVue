@@ -14,7 +14,7 @@ Vue.use(VueSimpleAlert)
 export const eventBus = new Vue({
   data:{
     //TODO global data if needed
-    backendUrl: 'http://localhost:5000'
+    backendUrl: 'https://monjoshflask.azurewebsites.net'
   },
   methods: {
     //TODO global functions (if needed)
