@@ -51,7 +51,6 @@
                   <table class="table table-hover">
                     <thead>
                       <tr class="table-primary">
-                          <th scope="col">Code</th>
                           <th scope="col">Ingredient</th>
                           <th scope="col">Amount</th>
                           <th scope="col">Unit</th>
