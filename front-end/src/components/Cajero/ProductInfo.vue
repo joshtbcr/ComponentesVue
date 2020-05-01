@@ -59,8 +59,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr v-for="(ingredient, index) in product.Ingredients" :key="ingredient.Id">
-                        <td>{{ ingredient.Id }}</td>
+                      <tr v-for="(ingredient, index) in product.Ingredients" :key="index">
                         <td>{{ ingredient.Name }}</td>
                         <td>{{ (ingredient.Amount).toFixed(2) }}</td>
                         <td>{{ ingredient.Unit }}</td>
